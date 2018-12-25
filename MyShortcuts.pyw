@@ -6,32 +6,32 @@ import time
 def GetButtonState(button):
     return win32api.GetAsyncKeyState(button)
 
-def HandleShortcut(keys, app):
+def HandleShortcut(keys, appTuple):
     keysList = keys.split('+')
-    keyStates = 0
-    correctKeys = True
+
     for key in keysList:
         if(len(key) == 1):
             key = ord(key)
         else:
             key = getattr(win32con, key)
 
-        keyState = GetButtonState(key)
-        correctKeys &= (keyState != 0)
+        if not GetButtonState(key) >> 31:
+            appTuple[2] = False
+            return False
 
-        keyStates |= keyState
-
-    if(not correctKeys or keyStates & 1 == 0):
+    if appTuple[1] < 0 and appTuple[2]:
         return False
-        
-    if(app[:2] == 'VK'):
-        win32api.keybd_event(getattr(win32con, app), 0,0,0)
-        time.sleep(0.05)
-        win32api.keybd_event(getattr(win32con, app), 0,win32con.KEYEVENTF_KEYUP,0)
+
+    appTuple[2] = True
+
+    if(appTuple[0][:2] == 'VK'):
+        win32api.keybd_event(getattr(win32con, appTuple[0]), 0,0,0)
+        win32api.keybd_event(getattr(win32con, appTuple[0]), 0,win32con.KEYEVENTF_KEYUP,0)
     else:
-        os.startfile(app)
-        time.sleep(0.5)
-        
+        os.startfile(appTuple[0])
+
+    time.sleep(appTuple[1] if appTuple[1] >= 0.0 else 0.0)
+
     return True
 
 config = open("config.cfg", "r")
@@ -47,9 +47,11 @@ for i in range(len(lines)):
     if(len(lines[i]) == 0 or lines[i][0] == '#'):
         continue
     
-    rawKeys = lines[i].split()[0]
-    offset = len(rawKeys)
-    shortcuts[rawKeys] = lines[i][offset+1:]
+    splitted = lines[i].split()
+    rawKeys = splitted[0]
+    offset = len(splitted[0]) + 1 + len(splitted[1]) + 1
+    delay = float(splitted[1])
+    shortcuts[rawKeys] = [lines[i][offset:], delay, False]
 
 while(True):
     shortcutInvoked = False
@@ -57,5 +59,5 @@ while(True):
         shortcutInvoked |= HandleShortcut(keys, command)
 
     if(not shortcutInvoked):
-        time.sleep(0.05)
+        time.sleep(0.1)
         
