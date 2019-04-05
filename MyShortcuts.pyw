@@ -2,6 +2,7 @@ import win32api
 import win32con
 import os
 import time
+import KeysCodes
 
 def GetButtonState(button):
     return win32api.GetAsyncKeyState(button)
@@ -13,7 +14,7 @@ def HandleShortcut(keys, appTuple):
         if(len(key) == 1):
             key = ord(key)
         else:
-            key = getattr(win32con, key)
+            key = getattr(KeysCodes, key)
 
         if not GetButtonState(key) >> 31:
             appTuple[2] = False
@@ -25,8 +26,8 @@ def HandleShortcut(keys, appTuple):
     appTuple[2] = True
 
     if(appTuple[0][:2] == 'VK'):
-        win32api.keybd_event(getattr(win32con, appTuple[0]), 0,0,0)
-        win32api.keybd_event(getattr(win32con, appTuple[0]), 0,win32con.KEYEVENTF_KEYUP,0)
+        win32api.keybd_event(getattr(KeysCodes, appTuple[0]), 0,0,0)
+        win32api.keybd_event(getattr(KeysCodes, appTuple[0]), 0,win32con.KEYEVENTF_KEYUP,0)
     else:
         os.startfile(appTuple[0])
 
