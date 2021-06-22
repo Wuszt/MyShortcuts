@@ -1,0 +1,21 @@
+# MyShortcuts
+It lets you assign shortcut keys to run any command or imitate another key (i.e. one of media keys if you miss it). Super simple, but it quickly became my favourite tool.
+
+Example config file:
+```
+#(Hotkey0+Hotkey1+...) (delay in seconds:-1 if button release required) (buttonToPress or file to run)
+
+#Apps
+VK_LCONTROL+VK_LMENU+Q -1 C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk
+VK_LCONTROL+VK_LMENU+W -1 powershell
+VK_LCONTROL+VK_LMENU+E -1 C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Sublime Text 3.lnk
+VK_LCONTROL+VK_LMENU+R -1 C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe
+
+#Media
+VK_LCONTROL+VK_LMENU+VK_LEFT -1 VK_MEDIA_PREV_TRACK
+VK_LCONTROL+VK_LMENU+VK_RIGHT -1 VK_MEDIA_NEXT_TRACK
+VK_LCONTROL+VK_LMENU+VK_UP -1 VK_MEDIA_PLAY_PAUSE
+VK_LCONTROL+VK_LMENU+VK_DOWN -1 VK_VOLUME_MUTE
+VK_LCONTROL+VK_LMENU+VK_OEM_7 0.075 VK_VOLUME_DOWN
+VK_LCONTROL+VK_LMENU+VK_OEM_6 0.075 VK_VOLUME_UP
+```
