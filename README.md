@@ -1,5 +1,5 @@
 # MyShortcuts
-It lets you assign shortcut keys to run any command or imitate another key (i.e. one of media keys if you miss it). Super simple, but it quickly became my favourite tool.
+It lets you assign shortcut keys to run any command or imitate another key (i.e. one of media keys if your keyboard miss it). Super simple, but it quickly became my favourite tool.
 
 Example config file:
 ```
